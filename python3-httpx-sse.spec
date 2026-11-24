@@ -7,7 +7,7 @@ Summary:	Consume Server-Sent Event (SSE) messages with HTTPX
 Summary(pl.UTF-8):	Obsługa komunikatów Server-Sent Event (SSE) z HTTPX
 Name:		python3-httpx-sse
 Version:	0.4.3
-Release:	1
+Release:	2
 License:	MIT
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/httpx-sse/
