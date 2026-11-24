@@ -18,12 +18,19 @@ BuildRequires:	python3-build
 BuildRequires:	python3-installer
 BuildRequires:	python3-modules >= 1:3.9
 BuildRequires:	python3-setuptools
+BuildRequires:	python3-setuptools_scm
+BuildRequires:	python3-wheel
 %if %{with tests}
 BuildRequires:	python3-httpx >= 0.27.1
 BuildRequires:	python3-pytest
+BuildRequires:	python3-pytest-asyncio
+BuildRequires:	python3-sse-starlette
+BuildRequires:	python3-starlette
 %endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 2.044
+# imported at runtime, not declared in upstream metadata
+Requires:	python3-httpx
 Requires:	python3-modules >= 1:3.9
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -42,8 +49,11 @@ HTTPX.
 %py3_build_pyproject
 
 %if %{with tests}
+# addopts enforce 100% coverage via pytest-cov
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
-%{__python3} -m pytest tests
+PYTEST_PLUGINS=pytest_asyncio.plugin \
+PYTHONPATH=$(pwd)/src \
+%{__python3} -m pytest -o addopts= tests
 %endif
 
 %install
